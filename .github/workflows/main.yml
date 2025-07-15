@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Setup Node
@@ -21,15 +21,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # ❌ REMOVE THIS BLOCK
-      # - name: Run Tests
-      #   run: npm test -- --watchAll=false
-
-      - name: Build
+      - name: Build Project
         run: npm run build
 
       - name: Deploy to Netlify
-        run: npx netlify deploy --dir=build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN --prod
+        run: |
+          npx netlify deploy --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID --dir=build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
